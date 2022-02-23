@@ -15,6 +15,22 @@ class Traveler {
         }
     }
 
+    get food(){
+        return this._food;
+    }
+
+    set food(novoFood){
+        this._food = novoFood;
+    }
+
+    get isHealthy(){
+        return this._isHealthy;
+    }
+
+    set isHealthy(novoIsHealthy){
+        this._isHealthy = novoIsHealthy;
+    }
+
     hunt(){
         
         this._food += 2;
@@ -25,10 +41,10 @@ class Traveler {
 
         if(this._food > 0){
             this._food -= 1;
-        } 
-        if(this._food === 0)
+        } else if(this._food === 0){
             this._isHealthy = false;
         }
+    }
 
 }
 
@@ -48,6 +64,14 @@ class Wagon {
         }
     }
 
+    get passengers(){
+        return this._passengers;
+    }
+
+    set passengers(novoPassenger){
+        this._passengers = novoPassenger;
+    }
+
     getAvailableSeatCount(){
        return this._capacity - this._passengers.length
         
@@ -60,15 +84,18 @@ class Wagon {
     }
 
     shouldQuarantine(){
-        let resultado = false
-        for(let i = 0; i < this._passengers.length; i++){
-            if(this._passengers[i]._isHealthy === false){
-                resultado = true
-            } else {
-                resultado = false
-            }
-        } 
-        return resultado
+        //let resultado 
+        //for(let i = 0; i < this._passengers.length; i++){
+        //    if(this._passengers[i]._isHealthy === false){
+        //        resultado = true
+        //    }
+        //}
+        //
+        //return resultado
+        const quarentena = this.passengers.some((passageiroAtual) => {
+           return passageiroAtual._isHealthy === false
+        })
+        return quarentena
     }
 
     totalFood(){
@@ -82,11 +109,19 @@ class Wagon {
 }
 
 class Hunter extends Traveler {
-    constructor(name){
-        super(name);
+    constructor(name, isHealthy){
+        super(name, isHealthy);
         this._food = 2;
-        this._isHealthy = true;
     }
+
+    get food(){
+        return this._food;
+    }
+
+    set food(newFood){
+        this._food = newFood;
+    }
+
     hunt(){
         
         this._food += 5;
@@ -115,10 +150,17 @@ class Hunter extends Traveler {
 }
 
 class Doctor extends Traveler {
-    constructor(name){
-        super(name);
+    constructor(name, isHealthy){
+        super(name, isHealthy);
         this._food = 1;
-        this._isHealthy = true;
+    }
+
+    get food(){
+        return this._food;
+    }
+
+    set food(newFood){
+        this._food = newFood;
     }
 
     heal(traveler){
